@@ -8,7 +8,7 @@ const AppointmentRouter = require('./Routes/appointmentRoutes'); // Import appoi
 
 require('dotenv').config();
 require('./Models/db');
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 app.use(cors());
