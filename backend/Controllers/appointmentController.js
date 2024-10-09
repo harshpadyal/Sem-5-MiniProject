@@ -4,28 +4,28 @@ const sendConfirmationEmail = require('../utils/mailer'); // Import the mailer
 // Controller to book an appointment
 const bookAppointment = async (req, res) => {
   try {
-    const { a_name, a_email, a_service, a_date, a_outlet, a_timeslot, a_specialrequest, local_email } = req.body;
+    const { a_name, a_email, a_vehicle, a_outlet, a_specialrequest, local_email } = req.body;
 
     // Check if there are already 3 appointments for the same date, time slot, outlet, and local email
     const appointmentCount = await Appointment.countDocuments({
-      a_date: new Date(a_date), // Convert date string to Date object if needed
-      a_timeslot: a_timeslot,
+      // a_date: new Date(a_date), // Convert date string to Date object if needed
+      // a_timeslot: a_timeslot,
       a_outlet: a_outlet,
 
     });
 
-    if (appointmentCount >= 3) {
-      return res.status(400).json({ message: 'Maximum appointment limit reached for this Time slot, Date. Please choose another Time or Date.' });
-    }
+    // if (appointmentCount >= 3) {
+    //   return res.status(400).json({ message: 'Maximum appointment limit reached for this Time slot, Date. Please choose another Time or Date.' });
+    // }
 
     // Create new appointment
     const newAppointment = new Appointment({
       a_name,
       a_email,
-      a_service,
-      a_date,
+      a_vehicle,
+      // a_date,
       a_outlet,
-      a_timeslot,
+      // a_timeslot,
       a_specialrequest,
       local_email // Include local_email in the appointment document
     });

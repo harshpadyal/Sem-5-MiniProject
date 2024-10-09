@@ -9,19 +9,11 @@ const appointmentSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  a_service: {
+  a_vehicle: {
     type: String,
-    required: true,
-  },
-  a_date: {
-    type: Date,
     required: true,
   },
   a_outlet: {
-    type: String,
-    required: true,
-  },
-  a_timeslot: {
     type: String,
     required: true,
   },
