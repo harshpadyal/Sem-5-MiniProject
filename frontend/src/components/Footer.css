@@ -1,14 +1,13 @@
 
 .footerimg{
     position: relative;
-
-
+    background-color: grey;
 }
+
 footer{
-    background-color: #722F37;
+    background-color: grey;
     color: white;
     width: 100%;
-
     height: 70vh;
 }
 .footerimg>img{

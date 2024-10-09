@@ -6,7 +6,8 @@ import "./Footer.css";
 const Footer = () => {
   return (
     <div className="footerimg">
-    <img src="/images/cup.png" alt="Cup" />
+    {/* <img src="/images/cup.png" alt="Cup" /> */}
+    <img src='./images/cup.png' alt='Cup' />
     <footer>
         <div className="social">
             <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer"><img src="/images/facebook.svg" alt="Facebook" /></a>
@@ -26,16 +27,17 @@ const Footer = () => {
             </div>
             <div className="email">
                 <div>Email</div>
-                <div>example.com@gmail.com</div>
+                <div>technix.service@gmail.com</div>
             </div>
         </div>
 
         <div className="info">
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Illo id veritatis qui nemo, in earum optio veniam impedit laudantium iusto voluptas soluta, ex obcaecati blanditiis voluptatum. Ad vel itaque blanditiis temporibus nisi nam, vitae tempora, suscipit eos a consequatur, fuga necessitatibus? Fugiat consequatur mollitia incidunt aliquam quibusdam atque, harum sequi.
+        Your trusted roadside assistance solution. At Technix, we specialize in on-the-spot car repairs, connecting you with expert mechanics wherever and whenever you need them. Whether it's a flat tire, battery issue, or any other roadside emergency, Technix ensures quick and reliable assistance so you can get back on the road in no time.
+        Fast. Reliable. Always there for you.
         </div>
 
         <div className="copyright">
-            <p>&copy; <span id="current-year">{new Date().getFullYear()}</span> Salon demo. All rights reserved.</p>
+            <p>&copy; <span id="current-year">{new Date().getFullYear()}</span> Technix. All rights reserved.</p>
         </div>
     </footer>
 </div>

@@ -6,34 +6,34 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import "./Home.css"
 import { NavLink } from "react-router-dom";
-import wax from '../assets/wax.png';
-import hair from '../assets/hair.png';
-import spa from '../assets/spa.png';
 import img from '../assets/icon.png';
+import tyreForCard from '../assets/tyreForCard.jpg'
+import Battery from '../assets/Battery.jpg'
+import brake from '../assets/brake.jpg'
 
 
 
-import productImage from '../assets/product.png';
-import ladyImage from '../assets/lady.png';
+import mechanic from '../assets/mechanic.jpg';
+import carCrash from '../assets/carCrash.png';
 
 const ImageCarousel = () => {
     const slides = [
       {
-        image: ladyImage,
-        title: 'X SALON',
+        image: carCrash,
+        title: 'Technix',
         subtitle: 'Welcome to',
         description:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+           "Welcome to Technix! We provide fast, reliable roadside car repair services by connecting you with skilled mechanics, anytime and anywhere. Get back on the road with ease, no matter where you are!",
         buttonText: 'Book Appointment',
         link: '/appointment',  // Navigation link for this slide
       },
       {
-        image: productImage,
-        title: 'X SALON',
+        image: mechanic,
+        title: 'Technix',
         subtitle: 'Welcome to',
         description:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-        buttonText: 'Buy Products',
+          'Welcome to Technix! We provide fast, reliable roadside car repair services by connecting you with skilled mechanics, anytime and anywhere. Get back on the road with ease, no matter where you are!',
+        buttonText: 'Book Appointment',
         link: '/store',  // Navigation link for this slide
       },
     ];
@@ -84,9 +84,9 @@ const ImageCarousel = () => {
 
   const Services = () => {
     const services = [
-      { name: "Waxing", image: wax },
-      { name: "Hair Care", image: hair },
-      { name: "Hair Spa", image: spa },
+      { name: "Tyre Servicing", image: tyreForCard },
+      { name: "Battery Servicing", image: Battery },
+      { name: "Brake Servicing", image: brake },
     ];
   
     return (
@@ -109,12 +109,12 @@ const VideoSection = () => {
     return (
       <section className="video-section">
         <div className="video-content">
-          <h2 className="video-title">Experience the Best in Makeup Artistry</h2>
+          <h2 className="video-title">Experience the Best in Car Servicing</h2>
           <div className="video-container">
             <iframe
               width="100%"
               height="auto"
-              src="https://www.youtube.com/embed/-FnrCZJw6TE?si=7rucvFboiGjbatNq"
+              src="https://www.youtube.com/embed/PUkAIAIzA0I?si=z0iU6D8zpK0a9JQg"
               title="Makeup Video"
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -126,30 +126,7 @@ const VideoSection = () => {
       </section>
     );
   };
-  // Testimonials component
-const Testimonials = () => {
-    const testimonials = [
-      { name: "Arya", 
-        text: "The staff is friendly, warm, and cooperative. They greet me with happy faces all the time. No matter which eyebrow threader I choose, I get the same shape every time with the utmost perfection. Love this place and its atmosphere.", image: img },
-      { name: "Sharvari", text: "Amy did my lash extensions with utter accuracy and perfection. She even gives a guarantee that if you don’t like your lashes, she’ll refund your money. Her skill level matches her confidence level!",  image: img },
-      { name: "Artha", text: "I had a facial treatment with Riya, and it was beyond amazing. She took the time to explain every step and tailored the treatment to my skin's needs. I left feeling rejuvenated and with glowing skin. ",  image: img },
-    ];
-  
-    return (
-      <section id="testimonials" className="testimonials-section">
-        <h2>Testimonials</h2>
-        <div className="testimonials-container">
-          {testimonials.map((testimonial, index) => (
-            <div key={index} className="testimonial-card">
-              <img src={testimonial.image} alt={testimonial.name} />
-              <p>{testimonial.text}</p>
-              <h3>{testimonial.name}</h3>
-            </div>
-          ))}
-        </div>
-      </section>
-    );
-  };
+
 
 
 function Home() {
@@ -201,7 +178,7 @@ function Home() {
             <ImageCarousel />
             <Services />
             <VideoSection />
-            <Testimonials />
+            {/* <Testimonials /> */}
 
         
 

@@ -1,190 +1,169 @@
-import React, { useState } from 'react';
-import "./Outlets.css"
+import React, { useState, useEffect, useRef } from 'react';
+import './Outlets.css';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-import { useNavigate } from 'react-router-dom';
+import ReactMapGL, { Marker, Popup } from 'react-map-gl';
+import 'mapbox-gl/dist/mapbox-gl.css';
+
+const MAPBOX_TOKEN = 'pk.eyJ1Ijoidml2ZWtndXB0YTEwMzMiLCJhIjoiY20yMDJzbXdrMGJhdDJrcjJlYzN0YTNhdiJ9.9IfHEEBsauzfeLV5-wR60g';
 
 const Outlets = () => {
-    const [mapSrc, setMapSrc] = useState("https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d120556.01377007818!2d72.85082642655325!3d19.22246313631774!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7b9666160a75b%3A0x105a5333c2a95751!2sLakme%20Salon!5e0!3m2!1sen!2sin!4v1722692297203!5m2!1sen!2sin");
-    const [address, setAddress] = useState("High School, Shop No. 1 & 2, Siddhachal Building No. 3 Phase 8, Pokharan Rd Number 2, opposite Vasant Vihar, Vasant Vihar, Thane West, Mumbai, Maharashtra 400610");
-    const [mapTitle, setMapTitle] = useState("Thane");
+  const [viewport, setViewport] = useState({
+    latitude: 19.076,
+    longitude: 72.8777,
+    zoom: 14,
+    width: '100%',
+    height: '600px',
+  });
 
-      
+  const [currentLocation, setCurrentLocation] = useState(null);
+  const [garages, setGarages] = useState([]);
+  const [selectedGarage, setSelectedGarage] = useState(null);
+  const garageRefs = useRef([]); // To hold references to the garage cards
 
-    const stores = [
-        {
-          name: 'Viviana Mall',
-          address: 'High School, Shop No. 1 & 2, Siddhachal Building No. 3 Phase 8,Vasant Vihar, Thane West, Mumbai,400610',
-          phone: '18001231555',
-          openUntil: '09:30 PM',
-          mapLink: '#', // Link to the map location
-          websiteLink: '#', // Link to the store's website
-          shopLink: '#', // Link to the shop
-          src: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d120556.01377007818!2d72.85082642655325!3d19.22246313631774!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7b9666160a75b%3A0x105a5333c2a95751!2sLakme%20Salon!5e0!3m2!1sen!2sin!4v1722692297203!5m2!1sen!2sin",
-          city: "Thane",
+  // Get user's current location
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setCurrentLocation({ lat: latitude, lng: longitude });
+          setViewport((prev) => ({ ...prev, latitude, longitude }));
+          fetchNearbyGarages(latitude, longitude);
         },
-
-        {
-          name: 'Mumbai Mall',
-          address: 'No A28/1, Inorbit Mall, Block No 1406, Link Road, Malad West, Mumbai - 400064',
-          phone: '18001231555',
-          openUntil: '09:30 PM',
-          mapLink: '#', // Link to the map location
-          websiteLink: '#', // Link to the store's website
-          shopLink: '#', // Link to the shop
-          src: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d148524.3640880721!2d72.7538906570983!3d19.108643498659866!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c9b51222092f%3A0x89cb958615e528e9!2sLakme%20Salon!5e0!3m2!1sen!2sin!4v1722692367401!5m2!1sen!2sin",
-          city: "Mumbai",    
-
-        },
-        {
-          name: 'Kalyan Mall',
-          address: 'No A28/1, Inorbit Mall, Block No 1406, Link Road, Malad West, Mumbai - 400064',
-          phone: '18001231555',
-          openUntil: '09:30 PM',
-          mapLink: '#', // Link to the map location
-          websiteLink: '#', // Link to the store's website
-          shopLink: '#', // Link to the shop
-          src: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d220273.46615733232!2d72.85684923548233!3d19.173933744560237!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be79517705f74a9%3A0x1b772e028156ba4a!2sLakme%20Salon!5e0!3m2!1sen!2sin!4v1722692426326!5m2!1sen!2sin",
-          city: "Kalyan",
-        },
-        {
-          name: 'Hill Road Bandra',
-          address: '101, C/5, First floor, Libra towers,,Opp. St. Peters Church, Hill Road,Mumbai,400050 Phone Number: 8655680153,2226430417',
-          phone: '18001231555',
-          openUntil: '09:30 PM',
-          mapLink: '#', // Link to the map location
-          websiteLink: '#', // Link to the store's website
-          shopLink: '#', // Link to the shop
-          scr: "https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3771.1948228468655!2d72.82737707520485!3d19.055169982145063!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMTnCsDAzJzE4LjYiTiA3MsKwNDknNDcuOCJF!5e0!3m2!1sen!2sin!4v1726225758301!5m2!1sen!2sin",
-          city: "Mumbai",    
-        },
-        {
-          name: 'Shivaji Park',
-          address: 'Shop No.3,Shiv Kutir,,Mumbai,400028',
-          phone: '8097433945',
-          openUntil: '09:30 PM',
-          mapLink: '#', // Link to the map location
-          websiteLink: '#', // Link to the store's website
-          shopLink: '#', // Link to the shop
-          scr: "https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3771.822476668948!2d72.83594097520414!3d19.027542682167073!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMTnCsDAxJzM5LjIiTiA3MsKwNTAnMTguNyJF!5e0!3m2!1sen!2sin!4v1726225969806!5m2!1sen!2sin",
-          city: "Mumbai",
-        },
-        // Add more stores here if needed
-        
-      ];
-
-   
-
-    
-      const handleLocationClick = (index, event) => {
-        event.preventDefault(); // Prevents default anchor behavior
-        setMapSrc(stores[index].src); // Updates the map source
-        setMapTitle(stores[index].city); // Updates the map title
-        console.log(mapSrc)
-    };
-    const navigate = useNavigate();
-
-    const handleLogout = (e) => {
-      localStorage.removeItem('token');
-      localStorage.removeItem('loggedInUser');
-      localStorage.removeItem('loggedInEmail');
-      handleSuccess('User Logged out');
-      setTimeout(() => {
-        navigate('/home');
-      }, 2000);
+        (error) => {
+          console.error('Error fetching location:', error.message);
+        }
+      );
     }
+  }, []);
 
-    return (
-        <main>
-               <Navbar handleLogout={handleLogout} />
-            <div className="topimg">
-                <img src="/outlet_assets/bg_outlet.png" alt="" />
-            </div>
+  // Fetch nearby garages using Mapbox Places API
+  const fetchNearbyGarages = (lat, lng) => {
+    const placesUrl = `https://api.mapbox.com/geocoding/v5/mapbox.places/car%20repair.json?proximity=${lng},${lat}&access_token=${MAPBOX_TOKEN}&types=poi&limit=10`;
 
-            <h1>Our Available Outlets</h1>
-            <div className="outletmap">
-                <div className="map">
-                    <div className="mapT"><h2>{mapTitle}</h2></div>
-                    <iframe
-                        src={mapSrc}
-                        width="600"
-                        height="450"
-                        style={{ border: 0 }}
-                        allowFullScreen
-                        loading="lazy"
-                        referrerPolicy="no-referrer-when-downgrade"
-                        title="Outlet Map"
-                    ></iframe>
-                    {/* <div className="list">
-                        <ul>
-                            {locations.map((location, index) => (
-                                <li key={index} onClick={() => handleLocationClick(index)}>{location.city}</li>
-                            ))}
-                        </ul>
-                    </div> */}
-                    
+    fetch(placesUrl)
+      .then((response) => response.json())
+      .then((data) => {
+        const garagesData = data.features.map((place) => ({
+          id: place.id,
+          name: place.text,
+          address: place.place_name,
+          lat: place.geometry.coordinates[1],
+          lng: place.geometry.coordinates[0],
+        }));
+        setGarages(garagesData);
+      })
+      .catch((error) => {
+        console.error('Error fetching nearby garages:', error);
+      });
+  };
+
+  // Scroll to garage card when marker is clicked
+  const handleMarkerClick = (garage) => {
+    setSelectedGarage(garage);
+
+    // Scroll to the selected garage card
+    const selectedGarageIndex = garages.findIndex((g) => g.id === garage.id);
+    if (selectedGarageIndex !== -1 && garageRefs.current[selectedGarageIndex]) {
+      garageRefs.current[selectedGarageIndex].scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  // Move map to marker when a garage card is clicked
+  const handleCardClick = (garage) => {
+    setViewport((prev) => ({
+      ...prev,
+      latitude: garage.lat,
+      longitude: garage.lng,
+      zoom: 15, // Zoom in when a garage is selected
+    }));
+    setSelectedGarage(garage); // Highlight the garage marker
+  };
+
+  return (
+    <main>
+      <Navbar />
+      <h1>Nearby Garages</h1>
+
+      <div className="outlet-container">
+        {/* 1/3 List of Garages */}
+        <div className="garage-list">
+          <h2>Garage List</h2>
+          <div className="stores-list">
+            {garages.map((garage, index) => (
+              <div
+                className={`store-card ${selectedGarage && selectedGarage.id === garage.id ? 'highlight' : ''}`}
+                key={garage.id}
+                ref={(el) => (garageRefs.current[index] = el)} // Assign refs to each card
+                onClick={() => handleCardClick(garage)} // Handle card click to focus map
+              >
+                <div className="store-header">
+                  <h3>{garage.name}</h3>
                 </div>
-                {/* <div className="address">
-                    <strong>ADDRESS</strong>: {address}
-                </div> */}
-                <div className="stores-list">
-                    {stores.map((store, index) => (
-                        <div key={index} className="store-card">
-                        <div className="store-header">
-                            <h3>💈 Salon Stores</h3>
-                        </div>
-                        <div className="store-info">
-                            <h4>{store.name}</h4>
-                            <p>📍 {store.address}</p>
-                            <p>📞 {store.phone}</p>
-                            <p>🕒 Open until {store.openUntil}</p>
-                        </div>
-                        <div className="store-actions">
-                            <button onClick={(event) => handleLocationClick(index, event)} className="btn map-btn">Map</button>
-                            <a href={store.websiteLink} className="btn website-btn">Website</a>
-                            <a href={store.shopLink} className="btn shop-btn">Shop Now</a>
-                        </div>
-                        </div>
-                    ))}
+                <div className="store-info">
+                  <h4>Address:</h4>
+                  <p>{garage.address}</p>
                 </div>
+              </div>
+            ))}
+          </div>
+        </div>
 
+        {/* 2/3 Map Section */}
+        <div className="outletmap">
+          <ReactMapGL
+            {...viewport}
+            mapboxAccessToken={MAPBOX_TOKEN}
+            onMove={(evt) => setViewport(evt.viewState)}
+            mapStyle="mapbox://styles/mapbox/streets-v11"
+            scrollZoom={true}
+            doubleClickZoom={true}
+            dragPan={true}
+          >
+            {/* Current location marker with red marker */}
+            {currentLocation && (
+              <Marker latitude={currentLocation.lat} longitude={currentLocation.lng}>
+                <img
+                  src=".\images\redMarker.jpg" // Path to your red marker image
+                  alt="Current Location"
+                  style={{ height: '30px', width: '30px' }}
+                />
+              </Marker>
+            )}
 
-            </div>
+            {/* Garage markers */}
+            {garages.map((garage) => (
+              <Marker key={garage.id} latitude={garage.lat} longitude={garage.lng}>
+                <img
+                  src="https://docs.mapbox.com/mapbox-gl-js/assets/custom_marker.png"
+                  alt={garage.name}
+                  style={{ height: '30px', width: '30px', cursor: 'pointer' }}
+                  onClick={() => handleMarkerClick(garage)} // Handle marker click to show corresponding garage card
+                />
+              </Marker>
+            ))}
 
-           
-
-
-
-
-
-            <div className="ownoutlet">
-                <div className="text">
-                    <h1>Wanna own an outlet?</h1>
-                    Checkout here
+            {/* Popup for selected garage */}
+            {selectedGarage && (
+              <Popup
+                latitude={selectedGarage.lat}
+                longitude={selectedGarage.lng}
+                onClose={() => setSelectedGarage(null)}
+              >
+                <div>
+                  <h3>{selectedGarage.name}</h3>
+                  <p>{selectedGarage.address}</p>
                 </div>
+              </Popup>
+            )}
+          </ReactMapGL>
+        </div>
+      </div>
 
-                <div className="ownoutlet1">
-                    <div className="container">
-                        <div className="img1">
-                            <img src="/outlet_assets/outletown.jpg" alt="" />
-                        </div>
-                        <div className="forms">
-                            <div className="entry1">
-                                Email:<input type="email" />
-                            </div>
-                            <div className="entry1">
-                                Mobile number:<input type="tel" id="mobile" name="mobile" pattern="[0-9]{10}" required />
-                            </div>
-                            <div className="sumitt">
-                                <input type="submit" value="Submit" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <Footer></Footer>
-        </main>
-    );
+      <Footer />
+    </main>
+  );
 };
 
 export default Outlets;

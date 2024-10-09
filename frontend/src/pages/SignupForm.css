@@ -3,7 +3,7 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: #f9eae9;
+    background: grey;
     position: relative;
   }
   
@@ -13,7 +13,7 @@
     position: absolute;
     width: 100px;
     height: 100px;
-    background: url('/Clip\ path\ group.png') no-repeat;
+    background: url('') no-repeat;
     background-size: contain;
   }
   
@@ -30,7 +30,7 @@
   /* Additional metallic balls */
   .metallic-ball {
     position: absolute;
-    background: url('/metallicball.png') no-repeat;
+    background: url('') no-repeat;
     background-size: contain;
   }
   
@@ -113,8 +113,8 @@
   
   .form-container button {
     padding: 10px;
-    background: #ff4766;
-    color: #fff;
+    background: orange;
+    color: black;
     border: none;
     border-radius: 4px;
     cursor: pointer;

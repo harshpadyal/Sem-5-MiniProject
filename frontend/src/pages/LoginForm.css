@@ -10,7 +10,7 @@
   height: 100vh;
   background-size: cover;
   position: relative;
-  background: #fed9de;
+  background: grey;
 }
 
 .login-container::before,
@@ -19,7 +19,7 @@
   position: absolute;
   width: 100px;
   height: 100px;
-  background: url('/Clip\ path\ group.png') no-repeat;
+  background: url('') no-repeat;
   background-size: contain;
 }
 
@@ -36,7 +36,7 @@
 /* Additional metallic balls */
 .metallic-ball {
   position: absolute;
-  background: url('/metallicball.png') no-repeat;
+  background: url('') no-repeat;
   background-size: contain;
 }
 
@@ -127,8 +127,8 @@
 
 .form-container button {
   padding: 10px;
-  background: #dc092c;
-  color: #fff;
+  background: orange;
+  color: black;
   border: none;
   border-radius: 4px;
   cursor: pointer;

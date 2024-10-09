@@ -127,7 +127,7 @@ function LoginForm() {
         </p>
       </div>
       <div className="image-container">
-        <img src="/girl.png" alt="Login Illustration" />
+        {/* <img src="" /> */}
       </div>
     </div>
   );

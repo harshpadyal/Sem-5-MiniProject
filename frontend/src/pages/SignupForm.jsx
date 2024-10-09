@@ -147,7 +147,7 @@ function SignupForm() {
         </p>
       </div>
       <div className="image-container">
-        <img src="/bg.png" alt="Signup Illustration" />
+        {/* <img src="" alt="" /> */}
       </div>
     </div>
   );

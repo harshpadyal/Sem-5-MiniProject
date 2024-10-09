@@ -59,7 +59,7 @@
 
 /* Active Link Styling */
 .navbar-links .active {
-  color:  rgb(253, 92, 213);
+  color:  rgb(238, 10, 18);
   font-weight: bold;
 }
 
@@ -114,6 +114,6 @@
 
 /* Red Background for testing */
 .red {
-  background: rgb(253, 92, 213);
-  color:  rgb(253, 92, 213);
+  background: rgb(238, 10, 18);
+  color:  rgb(238, 10, 18);
 }

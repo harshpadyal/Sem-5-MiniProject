@@ -23,13 +23,13 @@ const Navbar = ({ handleLogout }) => {
   return (
     <nav className="navbar">
       <div className="navbar-logo">
-        <img src="/logo.svg" alt="Logo" />
+      <img src='./images/logo.png' alt='Cup' />
       </div>
       <ul className="navbar-links">
         <li><NavLink exact to="/home" activeclassname="active">HOME</NavLink></li>
-        <li><NavLink to="/services" activeclassname="active">SERVICES</NavLink></li>
+       
         <li><NavLink to="/appointment" activeclassname="active">APPOINTMENT</NavLink></li>
-        <li><NavLink to="/store" activeclassname="active">STORE</NavLink></li>
+        
         <li><NavLink to="/outlets" activeclassname="active">OUTLETS</NavLink></li>
 
         {/* Conditionally render dropdown for logged-in user */}
