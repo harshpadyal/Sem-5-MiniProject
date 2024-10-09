@@ -49,10 +49,18 @@ nav .logo img{
     color: white;
     text-decoration: none;
 }
-.routes ul li a:hover{
-    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px rgb(255, 0, 170), 0 0 30px rgb(255, 0, 170), 0 0 40px rgb(255, 0, 170), 0 0 55px rgb(255, 0, 170), 0 0 75px rgb(255, 0, 170);
-
+.routes ul li a:hover {
+    text-shadow: 
+        0 0 5px #fff,              /* Small white glow */
+        0 0 10px #fff,             /* Larger white glow */
+        0 0 15px #fff,             /* Even larger white glow */
+        0 0 20px #ec93a2,          /* Light blue glow */
+        0 0 30px #ec93a9,          /* Larger light blue glow */
+        0 0 40px #ec9393,          /* Even larger light blue glow */
+        0 0 55px #ec93a0,          /* Strong light blue glow */
+        0 0 75px #ec9397;          /* Maximum intensity of light blue glow */
 }
+
 .svgimg img{
     height: 70vh;
     margin: auto;
@@ -73,14 +81,15 @@ nav .logo img{
     border:none;
     border-radius: 50%;
     position: absolute;
-    top: 34%;
-    left: 48%;
-    z-index: 3;
+    top: 44.9%;
+    left: 47.95%;
+    z-index: 2;
     transition: all 0.5s;
+    background-color:#a2a2a2 ;
 }
 .svgimg button:hover{
     transform: scale(1.5);
-    background-color:#92a649 ;
+    background-color:#5f5f5f ;
 }
 .ourservices{
     display: flex;
@@ -88,6 +97,7 @@ nav .logo img{
     font-size: 48px;
     justify-content: center;
     align-items: center;
+    color: #580505;
 }
 .feedbacks{
     display: flex;
@@ -100,79 +110,49 @@ nav .logo img{
     width:17vw;
     border: 2px solid;
 }
-.box{
-    
-    position: relative;
-    max-width: 70vw;
-    margin: 10vh auto;
-    height: 200vh;
-  
+.box {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 2 columns */
+    grid-gap: 10px; /* Reduced gap between rows and columns */
+    row-gap: 5px;  /* Reduced vertical gap */
+    justify-items: center; /* Center cards horizontally */
+    align-items: center; /* Center cards vertically */
+    max-width: 900px; /* Set a maximum width for the container */
+    margin: 0 auto; /* Center the box on the page */
 }
-.box img{
-    position: absolute;
-    z-index: 1;
-}
-.box div{
 
-    font-size: 24px;
+.card-container {
+    position: relative;
+    width: 100%;
 }
-.imgbor{
-    width: 400px;
-    height: 395px;
-    position: absolute;
-    z-index: 5;
-    border: 15px solid white ;
-    border-top: 0;
-    top: 0;
-    left: 5vw;
+
+.card {
+    position: relative;
+    width: 500px; /* Increased card width */
+    transition: transform 0.3s ease-in-out; /* Smooth hover effect */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Optional shadow */
+    border-radius: 10px; /* Rounded corners */
+    overflow: hidden; /* Hide any overflowed content */
 }
-.img1{
-    top: 0;
-    left: 5vw;
-    width: 400px;
+
+.card:hover {
+    transform: scale(1.05); /* Scale up on hover */
 }
-.t{
-    position: absolute;
-    z-index: 10;
-    display: flex;
-    flex-direction: column;
+
+.card img {
+    width: 100%; /* Full width of the card */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 10px; /* Rounded corners */
 }
-.t1{
-    top: 20vh;
-    left:27vw
+
+
+.card-title {
+    padding: 10px;
+    text-align: center; /* Center the title */
+    background-color: #f9f9f9; /* Background color for the title */
+    border-radius: 0 0 10px 10px; /* Rounded corners for the bottom */
 }
-.t2{
-    top: 48vh;
-    left: 34vw;
-}
-.t3{
-    top: 70vh;
-    left: 20vw;
-}
-.t4{
-    top: 100vh;
-    left: 33vw;
-}
-.t5{
-    top: 140vh;
-    left:27vw
-}
-.img2{
-    top: 11vh;
-    right: 5vw;
-}
-.img3{
-    top: 60vh;
-    left: 5vw;
-}
-.img4{
-    top: 71vh;
-    right: 5vw;
-}
-.img5{
-    top: 120vh;
-    left: 5vw;
-}
+
 .carousel {
     position: relative;
     width: 70%;
@@ -207,7 +187,8 @@ nav .logo img{
 }
 
 .carousel-text {
-    background-color: #D9D9D9;
+    color:#0d0d0d;
+    background-color: #b98989;
     padding: 10px;
     width: 100%;
     height: 30vh;
@@ -251,7 +232,7 @@ button.next:hover {
 }
 footer{
     background-color: grey;
-    color: white;
+    color: black;
     width: 100%;
 
     height: 70vh;
@@ -292,6 +273,6 @@ footer{
     position: absolute;
     bottom: 1vh;
     font-weight: bolder;
-    padding: 0 2vw;
-    
+    padding: 0 2vw;
+
 }

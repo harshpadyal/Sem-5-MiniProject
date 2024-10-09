@@ -6,6 +6,7 @@ import ReactMapGL, { Marker, Popup } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 const MAPBOX_TOKEN = 'pk.eyJ1Ijoidml2ZWtndXB0YTEwMzMiLCJhIjoiY20yMDJzbXdrMGJhdDJrcjJlYzN0YTNhdiJ9.9IfHEEBsauzfeLV5-wR60g';
+const RAZORPAY_KEY = 'rzp_test_SinyVSRmoadKZ3'; // Your RazorpayX key
 
 const Outlets = () => {
   const [viewport, setViewport] = useState({
@@ -19,7 +20,8 @@ const Outlets = () => {
   const [currentLocation, setCurrentLocation] = useState(null);
   const [garages, setGarages] = useState([]);
   const [selectedGarage, setSelectedGarage] = useState(null);
-  const garageRefs = useRef([]); // To hold references to the garage cards
+  const garageRefs = useRef([]);
+  const [paymentSuccess, setPaymentSuccess] = useState(false); // State to manage payment success message
 
   // Get user's current location
   useEffect(() => {
@@ -59,11 +61,46 @@ const Outlets = () => {
       });
   };
 
+  // Handle emergency assistance request
+  const handleEmergencyAssistance = async () => {
+    const options = {
+      key: RAZORPAY_KEY, // Your Razorpay Key
+      amount: 50000, // Amount in paise (50000 paise = ₹500)
+      currency: 'INR',
+      name: 'Emergency Car Assistance',
+      description: 'Requesting emergency car assistance.',
+      handler: (response) => {
+        console.log(response); // Log the response for debugging
+        if (response.razorpay_payment_id) {
+          alert('Payment successful! Mechanic has been assigned.');
+          setPaymentSuccess(true); // Update state for successful payment
+        } else {
+          alert('Payment failed or was not completed.');
+        }
+      },
+      prefill: {
+        name: 'Customer Name',
+        email: 'customer@example.com',
+        contact: '9999999999',
+      },
+      theme: {
+        color: '#F37254',
+      },
+    };
+
+    const paymentObject = new window.Razorpay(options);
+    
+    paymentObject.on('error', (error) => {
+      console.error('Payment error:', error);
+      alert('An error occurred during payment processing.');
+    });
+
+    paymentObject.open();
+  };
+
   // Scroll to garage card when marker is clicked
   const handleMarkerClick = (garage) => {
     setSelectedGarage(garage);
-
-    // Scroll to the selected garage card
     const selectedGarageIndex = garages.findIndex((g) => g.id === garage.id);
     if (selectedGarageIndex !== -1 && garageRefs.current[selectedGarageIndex]) {
       garageRefs.current[selectedGarageIndex].scrollIntoView({ behavior: 'smooth' });
@@ -76,9 +113,9 @@ const Outlets = () => {
       ...prev,
       latitude: garage.lat,
       longitude: garage.lng,
-      zoom: 15, // Zoom in when a garage is selected
+      zoom: 15,
     }));
-    setSelectedGarage(garage); // Highlight the garage marker
+    setSelectedGarage(garage);
   };
 
   return (
@@ -95,8 +132,8 @@ const Outlets = () => {
               <div
                 className={`store-card ${selectedGarage && selectedGarage.id === garage.id ? 'highlight' : ''}`}
                 key={garage.id}
-                ref={(el) => (garageRefs.current[index] = el)} // Assign refs to each card
-                onClick={() => handleCardClick(garage)} // Handle card click to focus map
+                ref={(el) => (garageRefs.current[index] = el)}
+                onClick={() => handleCardClick(garage)}
               >
                 <div className="store-header">
                   <h3>{garage.name}</h3>
@@ -121,30 +158,27 @@ const Outlets = () => {
             doubleClickZoom={true}
             dragPan={true}
           >
-            {/* Current location marker with red marker */}
             {currentLocation && (
               <Marker latitude={currentLocation.lat} longitude={currentLocation.lng}>
                 <img
-                  src=".\images\redMarker.jpg" // Path to your red marker image
+                  src=".\images\red marker 2.png"
                   alt="Current Location"
                   style={{ height: '30px', width: '30px' }}
                 />
               </Marker>
             )}
 
-            {/* Garage markers */}
             {garages.map((garage) => (
               <Marker key={garage.id} latitude={garage.lat} longitude={garage.lng}>
                 <img
                   src="https://docs.mapbox.com/mapbox-gl-js/assets/custom_marker.png"
                   alt={garage.name}
                   style={{ height: '30px', width: '30px', cursor: 'pointer' }}
-                  onClick={() => handleMarkerClick(garage)} // Handle marker click to show corresponding garage card
+                  onClick={() => handleMarkerClick(garage)}
                 />
               </Marker>
             ))}
 
-            {/* Popup for selected garage */}
             {selectedGarage && (
               <Popup
                 latitude={selectedGarage.lat}
@@ -160,6 +194,16 @@ const Outlets = () => {
           </ReactMapGL>
         </div>
       </div>
+
+      {/* Emergency Car Assistance Button */}
+      <div className="emergency-button-container">
+        <button className="emergency-button" onClick={handleEmergencyAssistance}>
+          Emergency Car Assistance
+        </button>
+      </div>
+
+      {/* Payment Success Message */}
+      {paymentSuccess && <div className="payment-success-message">Payment confirmed! Mechanic has been assigned.</div>}
 
       <Footer />
     </main>

@@ -84,20 +84,20 @@ const ImageCarousel = () => {
 
   const Services = () => {
     const services = [
-      { name: "Tyre Servicing", image: tyreForCard },
-      { name: "Battery Servicing", image: Battery },
-      { name: "Brake Servicing", image: brake },
+      { name: "Tyre", image: tyreForCard },
+      { name: "Battery", image: Battery },
+      { name: "Brake", image: brake },
     ];
   
     return (
       <section id="services" className="services-section">
-        <h2>Try Our Best Services</h2>
+        <h2>Try Our Best Products</h2>
         <div className="services-container">
           {services.map((service, index) => (
             <div key={index} className="service-card">
               <img src={service.image} alt={service.name} />
               <h3>{service.name}</h3>
-              <button id="btn">Book Now</button>
+              <button id="btn">Buy</button>
             </div>
           ))}
         </div>

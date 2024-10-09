@@ -66,4 +66,26 @@
   .store-info p {
     margin: 0.3rem 0;
   }
+
+  .emergency-button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .emergency-button {
+    background-color: #ff0000;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .emergency-button:hover {
+    background-color: orange;
+    color: black;
+  }
+  
   
